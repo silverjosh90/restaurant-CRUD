@@ -1,0 +1,20 @@
+extends layout
+
+block content
+  div.topBar
+    h1(class="title")= title.name
+  div.mainDisplay
+    img(src=title.image)
+    div.rightSide
+      h3.restType #{title.type} Cuisine
+      h3.restLocation Located in #{title.location}
+      br
+      h3.restDescript #{title.bio}
+      br
+      h3.restRating Rating: #{title.rating}
+      a(href="/edit/"+ title.name method) Edit
+      br
+      br
+    form(action="/delete/" +title.name method="POST")
+      input(type="submit" name="submit" value="Delete")
+      

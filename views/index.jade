@@ -1,5 +1,22 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  div.topBar
+    h1(class="title")= title
+    a(class="topRight" href="/new") New Restaurant
+  
+  div.firstTop
+
+
+  div.firstTop
+    div.greyBox Fiestaritos
+      img(class="pic" src="images/mexican.png")
+      p.description Mexican Cuisine
+      p.description Lincoln, NE
+    if rest
+      for restaurants in rest
+        div.greyBox
+          a(href=restaurants.name)= restaurants.name
+          img(class="pic" src=restaurants.image)
+          p.description= restaurants.type
+          p.description=restaurants.location

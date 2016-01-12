@@ -1,0 +1,47 @@
+extends layout
+
+block content
+  div(class='topBar')
+    h1(class="title" id="newRest") New Restaurant
+    
+  div(class="box")
+    img(class="newRestaurant" src="images/restaurantImage.png")
+    form(class="form" action="/add" method="POST")
+      label(class="formEntry" for="name") Name
+      br
+      div.separation
+        input(class="input" type="text" id="name" placeholder="Restaurant Name" name="name")  
+      br   
+      label(class="formEntry" for="location") Location
+      br
+      div.separation
+         input(class="input" type="text" id="location" placeholder="City" name="location")
+      br     
+      select(class="formEntry" name="states")
+        for x in state
+          option(value=x)=x
+      
+      br
+      br
+      select(class="formEntry" id="cuisineType" name="type")
+        for cuisines in cuisine
+          option(id="opt" value=cuisines)=cuisines
+      br
+      br
+      label(class="formEntry" for="image") Image
+      br
+      div.separation
+        input(class="input" type="text" id="Image" placeholder="Image URL" name="image")
+      br
+      label(for="rating") Rating
+      input(type="radio" name="rating" class="radio" value="1")
+      input(type="radio" name="rating" class="radio" value="2")
+      input(type="radio" name="rating" class="radio" value="3")
+      input(type="radio" name="rating" class="radio" value="4")
+      input(type="radio" name="rating" class="radio" value="5")
+      br
+      textarea(id="bio" name="bio")
+      br
+      button(class="button" name="cancel" value="1") Cancel
+      button(class="button" name="submit" value="2") Submit
+    
