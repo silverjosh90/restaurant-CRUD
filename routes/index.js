@@ -3,6 +3,7 @@ var router = express.Router();
 var pg = require('pg');
 var app = express();
 var server = require('../serverlogic/servlogic.js');
+require('dotenv').load()
 
 
 /* GET home page. */

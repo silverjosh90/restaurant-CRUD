@@ -4,6 +4,7 @@ var pg = require('pg');
 var connectionString = 'postgres://localhost/restaurant';
 var app = express();
 var knex = require('knex')
+require('dotenv').load()
 
 function runQuery (query,callback){
    pg.connect(connectionString, function(err, client, done) {
