@@ -1,0 +1,31 @@
+extends layout
+
+block content
+  
+  h1=header
+  
+  div
+  
+    ul
+      for rest in restaurant
+        li(id=restaurantNames) #{rest.name} 
+          p  
+          ul
+            li= rest.first_name + " " + rest.last_name
+            p
+  h3 Add Employee
+  form(action="/restaurant/employees/add" method="POST")
+    label(for="name") First Name
+    input(type="text" name="first_name")
+    br
+    label(for="last_name") Last Name
+    input(type="text" name="last_name")
+    br
+    label(for="restaurantName") Select a restaurant
+    select(name="restaurantName")
+      for rest in restaurant
+        option= rest.name
+    input(type="submit")
+    
+  
+  

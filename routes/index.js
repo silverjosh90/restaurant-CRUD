@@ -10,12 +10,12 @@ require('dotenv').load()
 router.get('/', function(req, res, next) {
   server.runQuery('SELECT * FROM foods', function(results){
     var result = results.rows
-    res.render('index', { title: 'gTables', rest: result });
+    res.render('index', { header: 'gTables', rest: result });
   })
 });
 
 router.get('/new', function(req,res,next){
-  res.render('restaurant', {state: server.states, cuisine: server.cuisine })
+  res.render('restaurant', {state: server.states, cuisine: server.cuisine, header: "New Restaurant"})
 
 })
 
@@ -31,7 +31,7 @@ router.get("/:title", function(req,res) {
 
   server.runQuery('SELECT * FROM foods WHERE name=' + "'" + req.params.title + "'", function(results) {
     var restInfo = results.rows[0]
-    res.render('indRest', {title: restInfo})
+    res.render('indRest', {title: restInfo, header: req.params.title})
   });
 });
 
@@ -39,13 +39,38 @@ router.get("/edit/:title", function(req,res){
   server.runQuery('SELECT * FROM foods WHERE name=' + "'" + req.params.title + "'", function(results) {
     var restaurants = results.rows[0]
 
-    res.render('editRest', {rest: req.params.title, cuisine: server.cuisine, state: server.states, restaurant: restaurants})
+    res.render('editRest', {header: "Edit Restaurant", rest: req.params.title, cuisine: server.cuisine, state: server.states, restaurant: restaurants})
 
   })
 })
 
+router.get("/restaurant/admin", function(req,res) {
+
+  server.runQuery('SELECT foods.name, employees.first_name, employees.last_name FROM foods LEFT JOIN employees ON foods.id = employees.food_id', function(results) {
+    var j = results.rows
+
+
+    res.render('admin' , {header: 'Admin', restaurant: j})
+  })
+
+});
+
+router.post("/restaurant/employees/add", function(req,res){
+  var restaurantName = req.body.restaurantName
+  var first = req.body.first_name
+  var last = req.body.last_name
+  server.runQuery("SELECT id from foods WHERE name='" + restaurantName+"'", function(results){
+    var rows = results.rows[0]
+    var ided = rows.id
+
+  var query = "INSERT INTO employees VALUES(default,'"+first+"','" + last + "'," + ided + " );"
+  server.runQuery(query, function(results) {
+    res.redirect('/');
+  })
+    })
+})
+
 router.post("/edit/:title", function(req,res){
-  // var j = server.postUpdate(req.body.name, req.body.location, req.body.states, req.body.type, req.body.image, req.body.rating, req.body.bio)
 
   server.runQuery('SELECT * FROM foods WHERE name=' + "'" + req.params.title + "'", function(resulted) {
     var d = resulted.rows[0]
@@ -59,11 +84,7 @@ router.post("/edit/:title", function(req,res){
 
  })
 
-  // server.runQuery(j, function(results) {
-  //   console.log("Worked!!")
-  // });
 })
-
 
 
 router.post("/delete/:title", function(req,res){

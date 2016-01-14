@@ -2,8 +2,7 @@ extends layout
 
 block content
   div.topBar
-    h1(class="title")= title
-    a(class="topRight" href="/new") New Restaurant
+    a(class="topRight" href="/new") #{title}
 
   div.firstTop
     if rest

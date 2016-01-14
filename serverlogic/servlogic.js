@@ -18,40 +18,49 @@ function runQuery (query,callback){
  }
 
  function postAdd(name, location, state, type, image, rating, bio) {
-   var review = Number(rating)
-   var j = "INSERT INTO foods VALUES(default,'"+name+"','"+location+"','"+state+"','"+type+"','"+image+"','"+review+"','"+bio+"');"
-   runQuery(j, function(results){
+   knex('foods').then(function(results){
+
    })
  }
+
+ // function postAdd(name, location, state, type, image, rating, bio) {
+ //   var review = Number(rating)
+ //   var j = "INSERT INTO foods VALUES(default,'"+name+"','"+location+"','"+state+"','"+type+"','"+image+"','"+review+"','"+bio+"');"
+ //   runQuery(j, function(results){
+ //   })
+ // }
 
  function postUpdate(name, location, state, type, image, rating, bio, id) {
    var review = Number(rating)
    var j = "UPDATE foods SET name='"+name+"',location='"+location+"', state='"+state+"', type'"+type+"', image='"+image+"',review='"+review+"',bio='"+bio+"' WHERE id='"+id+"'"
 
-   console.log("UPDATE foods SET name='"+name+"',location='"+location+"', state='"+state+"', type'"+type+"', image='"+image+"',review='"+review+"',bio='"+bio+"' WHERE id='"+id+"'")
    runQuery(j, function(results){
      return results
    })
  }
 
- // function removeIllegals(name,location,image, bio) {
- //   var array = [name,location,image,bio]
- //   var newArray = []
- //   for (var i = 0; i < array.length; i++) {
- //     var word = array[i]
- //      for (var i = 0; i < word.length; i++) {
- //        var d = ""
- //        if(word[i] == "'" || word[i] == '"') {
- //          d += "\'"
- //        }
- //        else {
- //          d+= word[i]
- //        }
- //      }
- //   }
- // }
 
 
+
+function removeIllegals(x) {
+  if(typeof(x) == 'number') {
+    return x
+  }
+  var array= x.split("")
+  var newString = ""
+  for(var i = 0; i <x.length; i++) {
+    if(x[i] == "'"){
+      newString += "\'"
+    }
+    else if(x[i] == '"') {
+      newString += '\"'
+    }
+    else {
+      newString += x[i]
+    }
+  }
+  return newString
+}
 
 
  function postSelect() {
@@ -59,6 +68,24 @@ function runQuery (query,callback){
      var result = results.rows
      return result
    })
+ }
+
+ function trimWhiteSpace(x) {
+   var newString = ""
+   for(var i =0; i <x.length; i++) {
+     if(x[i] != " ") {
+       newString += x[i]
+     }
+   }
+   return newString
+ }
+ function evaluateLength(x) {
+   if(x.length < 2) {
+     return "invalid"
+   }
+   else {
+     return "valid"
+   }
  }
 
 var states = [ 'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI',
