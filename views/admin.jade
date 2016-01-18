@@ -21,10 +21,19 @@ block content
     label(for="last_name") Last Name
     input(type="text" name="last_name")
     br
+    label(for="position") Position:
+    select(name="position")
+      option chef
+      option manager
+      option host
+      option server
+    br
+      
     label(for="restaurantName") Select a restaurant
     select(name="restaurantName")
       for rest in restaurant
         option= rest.name
+    br
     input(type="submit")
     
   

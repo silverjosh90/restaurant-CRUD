@@ -4,13 +4,33 @@ block content
   div.mainDisplay
     img(src=title.image)
     div.rightSide
-      h3.restType #{title.type} Cuisine
-      h3.restLocation Located in #{title.location}
+      div.restar
+        h3.restType #{title.type} Cuisine
+        h3.restLocation Located in #{title.location}
+        br
+        h3.restDescript #{title.bio}
+        br
+        h3.restRating Rating
+        -var j = 0
+        while j < title.rating
+          -var j = j + 1
+          img(class="star" src="images/stars.png")
+      h3 Reviews
+      if reviews
+        each x in reviews
+          p= x.name
+          p= x.date
+          -var j=0
+          while j < x.rating
+            -var j = j + 1
+            img( class="star" src="images/stars.png")
+              
+              
+          p=x.description
+      a(href="/edit/"+ title.name) Edit
       br
-      h3.restDescript #{title.bio}
       br
-      h3.restRating Rating: #{title.rating}
-      a(href="/edit/"+ title.name method) Edit
+      a(href="/restaurant/"+title.id+"/review") Submit a review
       br
       br
     form(action="/delete/" +title.name method="POST")

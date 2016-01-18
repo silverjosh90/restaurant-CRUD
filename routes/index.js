@@ -31,7 +31,12 @@ router.get("/:title", function(req,res) {
 
   server.runQuery('SELECT * FROM foods WHERE name=' + "'" + req.params.title + "'", function(results) {
     var restInfo = results.rows[0]
-    res.render('indRest', {title: restInfo, header: req.params.title})
+    var query='SELECT * from reviews WHERE restaurant_id='+restInfo.id;
+  server.runQuery(query, function(rest) {
+    var reviewed = rest.rows
+    console.log(reviewed);
+    res.render('indRest', {title: restInfo, header: req.params.title, reviews: reviewed})
+    });
   });
 });
 
@@ -84,6 +89,39 @@ router.post("/edit/:title", function(req,res){
 
  })
 
+})
+
+router.get("/restaurant/:id/review", function(req,res,next){
+
+  query = "SELECT * FROM reviews where restaurant_id="+req.params.id
+  query2 = "SELECT * from foods where id="+req.params.id
+
+  server.runQuery(query, function(results){
+    var result = results.rows[0]
+
+    var name = result.name
+    var ided = req.params.id
+  server.runQuery(query2, function(rest){
+    console.log(rest.rows[0])
+      res.render("reviews", {header: name + " Reviews", id: ided})
+    })
+  })
+})
+
+router.post('/restaurant/:id/reviews', function(req,res,next) {
+  var name = req.body.name
+  var date = req.body.date
+  var rating = req.body.rating
+  var description = req.body.description
+  var ided = req.params.id
+  var query = "INSERT INTO reviews VALUES(default,'"+name+"','"+date+"',"+rating+",'"+description+"',"+ided+");"
+  console.log(query);
+
+  server.runQuery("INSERT INTO reviews VALUES(default,'"+name+"','"+date+"',"+rating+",'"+description+"',"+ided+");", function(results){
+    console.log(results.rows);
+
+    res.redirect('/')
+  })
 })
 
 

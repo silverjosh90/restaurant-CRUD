@@ -1,9 +1,7 @@
 extends layout
 
 block content
-  div.topBar
-    a(class="topRight" href="/new") #{title}
-
+  a(class="topRight" href="/new") #{title}
   div.firstTop
     if rest
       for restaurants in rest
@@ -11,4 +9,8 @@ block content
           a(href=restaurants.name)= restaurants.name
           img(class="pic" src=restaurants.image)
           p.description= restaurants.type
+          -var j = 0
+          while j < restaurants.rating
+            -var j = j + 1
+            img( class="star" src="images/stars.png")
           p.description=restaurants.location
