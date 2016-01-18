@@ -30,7 +30,8 @@ router.post("/add", function(req,res){
 router.get("/:title", function(req,res) {
 
   server.runQuery('SELECT * FROM foods WHERE name=' + "'" + req.params.title + "'", function(results) {
-    var restInfo = results.rows[0]
+    console.log(results.rows[0]);
+    var restInfo = results.rows[0];
     var query='SELECT * from reviews WHERE restaurant_id='+restInfo.id;
   server.runQuery(query, function(rest) {
     var reviewed = rest.rows
