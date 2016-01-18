@@ -98,11 +98,11 @@ router.get("/restaurant/:id/review", function(req,res,next){
 
   server.runQuery(query, function(results){
     var result = results.rows[0]
-
-    var name = result.name
     var ided = req.params.id
+
   server.runQuery(query2, function(rest){
-    console.log(rest.rows[0])
+    var resulted = rest.rows[0]
+    var name = resulted.name
       res.render("reviews", {header: name + " Reviews", id: ided})
     })
   })
@@ -115,10 +115,9 @@ router.post('/restaurant/:id/reviews', function(req,res,next) {
   var description = req.body.description
   var ided = req.params.id
   var query = "INSERT INTO reviews VALUES(default,'"+name+"','"+date+"',"+rating+",'"+description+"',"+ided+");"
-  console.log(query);
+
 
   server.runQuery("INSERT INTO reviews VALUES(default,'"+name+"','"+date+"',"+rating+",'"+description+"',"+ided+");", function(results){
-    console.log(results.rows);
 
     res.redirect('/')
   })
