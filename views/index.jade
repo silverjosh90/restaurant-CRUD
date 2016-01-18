@@ -6,7 +6,7 @@ block content
     if rest
       for restaurants in rest
         div.greyBox
-          a(href=restaurants.name)= restaurants.name
+          a(href="/"restaurants.name)= restaurants.name
           img(class="pic" src=restaurants.image)
           p.description= restaurants.type
           -var j = 0
