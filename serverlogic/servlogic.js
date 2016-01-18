@@ -1,20 +1,17 @@
-var express = require('express');
-var router = express.Router();
-var pg = require('pg');
-var connectionString = process.env.DATABASE_URL|| 'postgres://localhost/restaurant';
-var app = express();
-var knex = require('knex')
-require('dotenv').load()
+var knex = require('../db/knex')
 
 function runQuery (query,callback){
-   pg.connect(connectionString, function(err, client, done) {
-     if (err) { done() ; console.log(err); return; }
-     client.query(query, function(err,results){
-       done();
-       if(err) {console.log(err); return; }
-       callback(results);
-     });
-   });
+  knex.raw(query).then(function(results){
+    callback(results);
+  });
+//   pg.connect(connectionString, function(err, client, done) {
+//     if (err) { done() ; console.log(err); return; }
+//     client.query(query, function(err,results){
+//       done();
+//       if(err) {console.log(err); return; }
+//       callback(results);
+//     });
+//   });
  }
 
  function postAdd(name, location, state, type, image, rating, bio) {
